@@ -1,0 +1,54 @@
+//
+//  SUT: {{ module_info.name }}Builder
+//
+//  Collaborators:
+//  {{ module_info.name }}ViewController
+//  {{ module_info.name }}Interactor
+//  {{ module_info.name }}Presenter
+//  {{ module_info.name }}Provider
+//
+
+import Quick
+import Nimble
+
+@testable import {{ module_info.project_name }}
+
+class {{ module_info.name }}BuilderTests: QuickSpec {
+	override func spec() {
+		var builder: {{ module_info.name }}Builder!
+
+		beforeEach {
+			builder = {{ module_info.name }}Builder()
+		}
+
+		describe(".build") {
+			it("should build module parts") {
+				// when
+				let controller = builder.set(initialState: TestData.initialState).build() as? {{ module_info.name }}ViewController
+				let interactor = controller?.interactor as? {{ module_info.name }}Interactor
+				let presenter = interactor?.presenter as? {{ module_info.name }}Presenter
+
+				// then
+				expect(controller).toNot(beNil())
+				expect(interactor).toNot(beNil())
+				expect(presenter).toNot(beNil())
+			}
+
+			it("should set dependencies between module parts") {
+				// when
+				let controller = builder.set(initialState: TestData.initialState).build() as? {{ module_info.name }}ViewController
+				let interactor = controller?.interactor as? {{ module_info.name }}Interactor
+				let presenter = interactor?.presenter as? {{ module_info.name }}Presenter
+
+				// then
+				expect(presenter?.viewController).to(beIdenticalTo(controller))
+			}
+		}
+	}
+}
+
+extension {{ module_info.name }}BuilderTests {
+	enum TestData {
+		static let initialState = {{ module_info.name }}.ViewControllerState.loading
+	}
+}

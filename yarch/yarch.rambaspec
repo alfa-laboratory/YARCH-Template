@@ -1,0 +1,38 @@
+# Template information section
+name: "Yarch"
+summary: "Yarch module template from Alfa-Bank (alfalab)."
+author: "Alfa-Bank"
+version: "0.2.0"
+license: "MIT"
+
+# The declarations for code files
+
+code_files:
+
+- {name: Builder.swift, path: Code/builder.swift.liquid}
+- {name: ViewController.swift, path: Code/viewcontroller.swift.liquid}
+- {name: Interactor.swift, path: Code/interactor.swift.liquid}
+- {name: Presenter.swift, path: Code/presenter.swift.liquid}
+- {name: DataFlow.swift, path: Code/dataflow.swift.liquid}
+
+# Model layer
+- {name: Model/Model.swift, path: Code/Model/model.swift.liquid}
+
+# Provider layer
+- {name: Provider/Provider.swift, path: Code/Provider/provider.swift.liquid}
+- {name: Provider/DataStore.swift, path: Code/Provider/datastore.swift.liquid}
+- {name: Provider/Service.swift, path: Code/Provider/service.swift.liquid}
+
+# View layer
+- {name: View/View.swift, path: Code/View/view.swift.liquid}
+
+# The declarations for test files
+test_files:
+
+- {name: Tests/BuilderTests.swift, path: Tests/builder_tests.swift.liquid}
+- {name: Tests/ViewControllerTests.swift, path: Tests/viewcontroller_tests.swift.liquid}
+- {name: Tests/InteractorTests.swift, path: Tests/interactor_tests.swift.liquid}
+- {name: Tests/PresenterTests.swift, path: Tests/presenter_tests.swift.liquid}
+- {name: Tests/ProviderTests.swift, path: Tests/provider_tests.swift.liquid}
+- {name: Tests/ServiceTests.swift, path: Tests/service_tests.swift.liquid}
+- {name: Tests/ModelTests.swift, path: Tests/model_tests.swift.liquid}

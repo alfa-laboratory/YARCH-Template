@@ -1,0 +1,16 @@
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//
+
+/// Модель данных, описывающая ...
+struct {{ module_info.name }}Model: UniqueIdentifiable {
+	// Example
+	let uid: UniqueIdentifier
+	let name: String
+}
+
+extension {{ module_info.name }}Model: Equatable {
+	static func == (lhs: {{ module_info.name }}Model, rhs: {{ module_info.name }}Model) -> Bool {
+		return lhs.uid == rhs.uid
+	}
+}
