@@ -12,84 +12,84 @@ import Nimble
 @testable import {{ module_info.project_name }}
 
 class {{ module_info.name }}InteractorTests: QuickSpec {
-	override func spec() {
-		var interactor: {{ module_info.name }}Interactor!
-		var presenterMock: {{ module_info.name }}PresenterMock!
-		var providerMock: {{ module_info.name }}ProviderMock!
+    override func spec() {
+        var interactor: {{ module_info.name }}Interactor!
+        var presenterMock: {{ module_info.name }}PresenterMock!
+        var providerMock: {{ module_info.name }}ProviderMock!
 
-		beforeEach {
-			providerMock = {{ module_info.name }}ProviderMock()
-			presenterMock = {{ module_info.name }}PresenterMock()
-			interactor = {{ module_info.name }}Interactor(presenter: presenterMock, provider: providerMock)
-		}
+        beforeEach {
+            providerMock = {{ module_info.name }}ProviderMock()
+            presenterMock = {{ module_info.name }}PresenterMock()
+            interactor = {{ module_info.name }}Interactor(presenter: presenterMock, provider: providerMock)
+        }
 
-		describe(".doSomething") {
-			it("should get data from provider") {
-				// when
-				interactor.doSomething(request: TestData.request)
-				// then
-				expect(providerMock.getItemsDidCalled).to(equal(1))
-			}
+        describe(".doSomething") {
+            it("should get data from provider") {
+                // when
+                interactor.doSomething(request: TestData.request)
+                // then
+                expect(providerMock.getItemsDidCalled).to(equal(1))
+            }
 
-			context("getItems successfull"){
-				it("should prepare success response and call presenter"){
-					// given
-					providerMock.getItemsCompletionStub = (result: TestData.models, error: nil)
-					// when
-					interactor.doSomething(request: TestData.request)
-					// then
-					expect(presenterMock.presentSomethingDidCalled).to(equal(1))
-					expect(presenterMock.presentSomethingArguments).toNot(beNil())
-					expect{ if case .success(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
-				}
-			}
+            context("getItems successfull"){
+                it("should prepare success response and call presenter"){
+                    // given
+                    providerMock.getItemsCompletionStub = (result: TestData.models, error: nil)
+                    // when
+                    interactor.doSomething(request: TestData.request)
+                    // then
+                    expect(presenterMock.presentSomethingDidCalled).to(equal(1))
+                    expect(presenterMock.presentSomethingArguments).toNot(beNil())
+                    expect{ if case .success(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
+                }
+            }
 
-			context("getItems failed"){
-				it("should prepare failed response and call presenter"){
-					// given
-					providerMock.getItemsCompletionStub = (result: nil, error: TestData.getItemsFailedError)
-					// when
-					interactor.doSomething(request: TestData.request)
-					// then
-					expect(presenterMock.presentSomethingDidCalled).to(equal(1))
-					expect(presenterMock.presentSomethingArguments).toNot(beNil())
-					expect{ if case .failure(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
-				}
-			}
-		}
-	}
+            context("getItems failed"){
+                it("should prepare failed response and call presenter"){
+                    // given
+                    providerMock.getItemsCompletionStub = (result: nil, error: TestData.getItemsFailedError)
+                    // when
+                    interactor.doSomething(request: TestData.request)
+                    // then
+                    expect(presenterMock.presentSomethingDidCalled).to(equal(1))
+                    expect(presenterMock.presentSomethingArguments).toNot(beNil())
+                    expect{ if case .failure(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
+                }
+            }
+        }
+    }
 }
 
 extension {{ module_info.name }}InteractorTests {
-	enum TestData {
-		static let request = {{ module_info.name }}.Something.Request()
-		static let models = {{ module_info.name }}ModelTests.TestData.entitiesCollection()
+    enum TestData {
+        static let request = {{ module_info.name }}.Something.Request()
+        static let models = {{ module_info.name }}ModelTests.TestData.entitiesCollection()
 
-		fileprivate static let underlyingError = ErrorMock()
-		fileprivate static let getItemsFailedError = {{ module_info.name }}ProviderError.getItemsFailed(underlyingError: underlyingError)
-	}
+        fileprivate static let underlyingError = ErrorMock()
+        fileprivate static let getItemsFailedError = {{ module_info.name }}ProviderError.getItemsFailed(underlyingError: underlyingError)
+    }
 }
 
 fileprivate class {{ module_info.name }}ProviderMock: {{ module_info.name }}ProviderProtocol {
-	var getItemsDidCalled: Int = 0
-	var getItemsArguments: (([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void)?
-	var getItemsCompletionStub: (result: [{{ module_info.name }}Model]?, error: {{ module_info.name }}ProviderError?) = (nil, nil)
+    var getItemsDidCalled: Int = 0
+    var getItemsArguments: (([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void)?
+    var getItemsCompletionStub: (result: [{{ module_info.name }}Model]?, error: {{ module_info.name }}ProviderError?) = (nil, nil)
 
-	func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void) {
-		getItemsDidCalled += 1
-		getItemsArguments = completion
-		completion(getItemsCompletionStub.result, getItemsCompletionStub.error)
-	}
+    func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void) {
+        getItemsDidCalled += 1
+        getItemsArguments = completion
+        completion(getItemsCompletionStub.result, getItemsCompletionStub.error)
+    }
 }
 
 fileprivate class {{ module_info.name }}PresenterMock: {{ module_info.name }}PresentationLogic {
-	var presentSomethingDidCalled: Int = 0
-	var presentSomethingArguments: {{ module_info.name }}.Something.Response?
+    var presentSomethingDidCalled: Int = 0
+    var presentSomethingArguments: {{ module_info.name }}.Something.Response?
 
-	func presentSomething(response: {{ module_info.name }}.Something.Response) {
-		presentSomethingDidCalled += 1
-		presentSomethingArguments = response
-	}
+    func presentSomething(response: {{ module_info.name }}.Something.Response) {
+        presentSomethingDidCalled += 1
+        presentSomethingArguments = response
+    }
 }
 
 fileprivate class ErrorMock: Error { }

@@ -3,34 +3,34 @@
 //
 
 protocol {{ module_info.name }}ProviderProtocol {
-	func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void)
+    func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void)
 }
 
 enum {{ module_info.name }}ProviderError: Error {
-	case getItemsFailed(underlyingError: Error)
+    case getItemsFailed(underlyingError: Error)
 }
 
 /// Отвечает за получение данных модуля {{ module_info.name }}
 struct {{ module_info.name }}Provider: {{ module_info.name }}ProviderProtocol {
-	let dataStore: {{ module_info.name }}DataStore
-	let service: {{ module_info.name }}ServiceProtocol
+    let dataStore: {{ module_info.name }}DataStore
+    let service: {{ module_info.name }}ServiceProtocol
 
-	init(dataStore: {{ module_info.name }}DataStore = {{ module_info.name }}DataStore(), service: {{ module_info.name }}ServiceProtocol = {{ module_info.name }}Service()) {
-		self.dataStore = dataStore
-		self.service = service
-	}
+    init(dataStore: {{ module_info.name }}DataStore = {{ module_info.name }}DataStore(), service: {{ module_info.name }}ServiceProtocol = {{ module_info.name }}Service()) {
+        self.dataStore = dataStore
+        self.service = service
+    }
 
-	func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void) {
-		if dataStore.models?.isEmpty == false {
-			return completion(self.dataStore.models, nil)
-		}
-		service.fetchItems { (array, error) in
-			if let error = error {
-				completion(nil, .getItemsFailed(underlyingError: error))
-			} else if let models = array {
-				self.dataStore.models = models
-				completion(self.dataStore.models, nil)
-			}
-		}
-	}
+    func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void) {
+        if dataStore.models?.isEmpty == false {
+            return completion(self.dataStore.models, nil)
+        }
+        service.fetchItems { (array, error) in
+            if let error = error {
+                completion(nil, .getItemsFailed(underlyingError: error))
+            } else if let models = array {
+                self.dataStore.models = models
+                completion(self.dataStore.models, nil)
+            }
+        }
+    }
 }

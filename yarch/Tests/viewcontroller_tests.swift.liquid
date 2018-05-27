@@ -11,40 +11,40 @@ import Nimble
 @testable import {{ module_info.project_name }}
 
 class {{ module_info.name }}ViewControllerTests: QuickSpec {
-	override func spec() {
-		var viewController: {{ module_info.name }}ViewController!
-		var interactorMock: {{ module_info.name }}InteractorMock!
+    override func spec() {
+        var viewController: {{ module_info.name }}ViewController!
+        var interactorMock: {{ module_info.name }}InteractorMock!
 
-		beforeEach {
-			interactorMock = {{ module_info.name }}InteractorMock()
-			viewController = {{ module_info.name }}ViewController(interactor: interactorMock)
-		}
+        beforeEach {
+            interactorMock = {{ module_info.name }}InteractorMock()
+            viewController = {{ module_info.name }}ViewController(interactor: interactorMock)
+        }
 
-		describe(".doSomething") {
-			it("should call method in interactor") {
-				// when
-				viewController.doSomething()
+        describe(".doSomething") {
+            it("should call method in interactor") {
+                // when
+                viewController.doSomething()
 
-				// then
-				expect(interactorMock.doSomethingDidCalled).to(equal(1))
-				expect(interactorMock.doSomethingArguments).toNot(beNil())
-			}
-		}
-	}
+                // then
+                expect(interactorMock.doSomethingDidCalled).to(equal(1))
+                expect(interactorMock.doSomethingArguments).toNot(beNil())
+            }
+        }
+    }
 }
 
 extension {{ module_info.name }}ViewControllerTests {
-	enum TestData {
-		static let request = {{ module_info.name }}.Something.Request()
-	}
+    enum TestData {
+        static let request = {{ module_info.name }}.Something.Request()
+    }
 }
 
 fileprivate class {{ module_info.name }}InteractorMock: {{ module_info.name }}BusinessLogic {
-	var doSomethingDidCalled: Int = 0
-	var doSomethingArguments: {{ module_info.name }}.Something.Request?
+    var doSomethingDidCalled: Int = 0
+    var doSomethingArguments: {{ module_info.name }}.Something.Request?
 
-	func doSomething(request: {{ module_info.name }}.Something.Request) {
-		doSomethingDidCalled += 1
-		doSomethingArguments = request
-	}
+    func doSomething(request: {{ module_info.name }}.Something.Request) {
+        doSomethingDidCalled += 1
+        doSomethingArguments = request
+    }
 }

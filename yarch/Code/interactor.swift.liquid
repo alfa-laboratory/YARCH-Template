@@ -4,31 +4,31 @@
 //
 
 protocol {{ module_info.name }}BusinessLogic {
-	func doSomething(request: {{ module_info.name }}.Something.Request)
+    func doSomething(request: {{ module_info.name }}.Something.Request)
 }
 
 /// Класс для описания бизнес-логики модуля {{ module_info.name }}
 class {{ module_info.name }}Interactor: {{ module_info.name }}BusinessLogic {
-	let presenter: {{ module_info.name }}PresentationLogic
-	let provider: {{ module_info.name }}ProviderProtocol
+    let presenter: {{ module_info.name }}PresentationLogic
+    let provider: {{ module_info.name }}ProviderProtocol
 
-	init(presenter: {{ module_info.name }}PresentationLogic, provider: {{ module_info.name }}ProviderProtocol = {{ module_info.name }}Provider()) {
-		self.presenter = presenter
-		self.provider = provider
-	}
-	
-	// MARK: Do something
-	func doSomething(request: {{ module_info.name }}.Something.Request) {
-		provider.getItems { (items, error) in
-			let result: {{ module_info.name }}.{{ module_info.name }}RequestResult
-			if let items = items {
-				result = .success(items)
-			} else if let error = error {
-				result = .failure(.someError(message: error.localizedDescription))
-			} else {
-				result = .failure(.someError(message: "No Data"))
-			}
-			self.presenter.presentSomething(response: {{ module_info.name }}.Something.Response(result: result))
-		}
-	}
+    init(presenter: {{ module_info.name }}PresentationLogic, provider: {{ module_info.name }}ProviderProtocol = {{ module_info.name }}Provider()) {
+        self.presenter = presenter
+        self.provider = provider
+    }
+    
+    // MARK: Do something
+    func doSomething(request: {{ module_info.name }}.Something.Request) {
+        provider.getItems { (items, error) in
+            let result: {{ module_info.name }}.{{ module_info.name }}RequestResult
+            if let items = items {
+                result = .success(items)
+            } else if let error = error {
+                result = .failure(.someError(message: error.localizedDescription))
+            } else {
+                result = .failure(.someError(message: "No Data"))
+            }
+            self.presenter.presentSomething(response: {{ module_info.name }}.Something.Response(result: result))
+        }
+    }
 }

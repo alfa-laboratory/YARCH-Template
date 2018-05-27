@@ -7,12 +7,17 @@ import UIKit
 
 class {{ module_info.name }}Builder: ModuleBuilder {
 
-	func build() -> UIViewController {
-		let presenter = {{ module_info.name }}Presenter()
-		let interactor = {{ module_info.name }}Interactor(presenter: presenter)
-		let controller = {{ module_info.name }}ViewController(interactor: interactor)
+    func set(initialState: {{ module_info.name }}.ViewControllerState) -> {{ module_info.name }}Builder {
+        self.initialState = initialState
+        return self
+    } 
 
-		presenter.viewController = controller
-		return controller
-	}
+    func build() -> UIViewController {
+        let presenter = {{ module_info.name }}Presenter()
+        let interactor = {{ module_info.name }}Interactor(presenter: presenter)
+        let controller = {{ module_info.name }}ViewController(interactor: interactor)
+
+        presenter.viewController = controller
+        return controller
+    }
 }
