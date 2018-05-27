@@ -26,7 +26,7 @@ class {{ module_info.name }}ViewControllerTests: QuickSpec {
                 viewController.doSomething()
 
                 // then
-                expect(interactorMock.doSomethingDidCalled).to(equal(1))
+                expect(interactorMock.doSomethingWasCalled).to(equal(1))
                 expect(interactorMock.doSomethingArguments).toNot(beNil())
             }
         }
@@ -40,11 +40,11 @@ extension {{ module_info.name }}ViewControllerTests {
 }
 
 fileprivate class {{ module_info.name }}InteractorMock: {{ module_info.name }}BusinessLogic {
-    var doSomethingDidCalled: Int = 0
+    var doSomethingWasCalled: Int = 0
     var doSomethingArguments: {{ module_info.name }}.Something.Request?
 
     func doSomething(request: {{ module_info.name }}.Something.Request) {
-        doSomethingDidCalled += 1
+        doSomethingWasCalled += 1
         doSomethingArguments = request
     }
 }

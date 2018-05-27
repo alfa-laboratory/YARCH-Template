@@ -37,7 +37,7 @@ class {{ module_info.name }}ProviderTests: QuickSpec {
                     // when
                     provider.getItems { (_, _) in }
                     // then
-                    expect(serviceMock.fetchItemsDidCalled).to(equal(1))
+                    expect(serviceMock.fetchItemsWasCalled).to(equal(1))
                 }
 
                 context("successfull response"){
@@ -91,7 +91,7 @@ class {{ module_info.name }}ProviderTests: QuickSpec {
                 // when
                 provider.getItems { (_, _) in }
                 // then
-                expect(serviceMock.fetchItemsDidCalled).to(equal(0))
+                expect(serviceMock.fetchItemsWasCalled).to(equal(0))
             }
 
             it("should return data in callback"){
@@ -115,12 +115,12 @@ extension {{ module_info.name }}ProviderTests {
 }
 
 fileprivate class {{ module_info.name }}ServiceMock: {{ module_info.name }}ServiceProtocol {
-    var fetchItemsDidCalled: Int = 0
+    var fetchItemsWasCalled: Int = 0
     var fetchItemsArguments: (([{{ module_info.name }}Model]?, APIClientError?) -> Void)?
     var fetchItemsCompletionStub: (result: [{{ module_info.name }}Model]?, error: APIClientError?)
 
     func fetchItems(completion: @escaping ([{{ module_info.name }}Model]?, Error?) -> Void) {
-        fetchItemsDidCalled += 1
+        fetchItemsWasCalled += 1
         fetchItemsArguments = completion
         completion(fetchItemsCompletionStub.result, fetchItemsCompletionStub.error)
     }

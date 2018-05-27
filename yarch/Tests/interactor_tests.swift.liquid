@@ -28,7 +28,7 @@ class {{ module_info.name }}InteractorTests: QuickSpec {
                 // when
                 interactor.doSomething(request: TestData.request)
                 // then
-                expect(providerMock.getItemsDidCalled).to(equal(1))
+                expect(providerMock.getItemsWasCalled).to(equal(1))
             }
 
             context("getItems successfull"){
@@ -38,7 +38,7 @@ class {{ module_info.name }}InteractorTests: QuickSpec {
                     // when
                     interactor.doSomething(request: TestData.request)
                     // then
-                    expect(presenterMock.presentSomethingDidCalled).to(equal(1))
+                    expect(presenterMock.presentSomethingWasCalled).to(equal(1))
                     expect(presenterMock.presentSomethingArguments).toNot(beNil())
                     expect{ if case .success(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
                 }
@@ -51,7 +51,7 @@ class {{ module_info.name }}InteractorTests: QuickSpec {
                     // when
                     interactor.doSomething(request: TestData.request)
                     // then
-                    expect(presenterMock.presentSomethingDidCalled).to(equal(1))
+                    expect(presenterMock.presentSomethingWasCalled).to(equal(1))
                     expect(presenterMock.presentSomethingArguments).toNot(beNil())
                     expect{ if case .failure(_)? = presenterMock.presentSomethingArguments?.result { return true }; return false }.to(beTrue())
                 }
@@ -71,23 +71,23 @@ extension {{ module_info.name }}InteractorTests {
 }
 
 fileprivate class {{ module_info.name }}ProviderMock: {{ module_info.name }}ProviderProtocol {
-    var getItemsDidCalled: Int = 0
+    var getItemsWasCalled: Int = 0
     var getItemsArguments: (([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void)?
     var getItemsCompletionStub: (result: [{{ module_info.name }}Model]?, error: {{ module_info.name }}ProviderError?) = (nil, nil)
 
     func getItems(completion: @escaping ([{{ module_info.name }}Model]?, {{ module_info.name }}ProviderError?) -> Void) {
-        getItemsDidCalled += 1
+        getItemsWasCalled += 1
         getItemsArguments = completion
         completion(getItemsCompletionStub.result, getItemsCompletionStub.error)
     }
 }
 
 fileprivate class {{ module_info.name }}PresenterMock: {{ module_info.name }}PresentationLogic {
-    var presentSomethingDidCalled: Int = 0
+    var presentSomethingWasCalled: Int = 0
     var presentSomethingArguments: {{ module_info.name }}.Something.Response?
 
     func presentSomething(response: {{ module_info.name }}.Something.Response) {
-        presentSomethingDidCalled += 1
+        presentSomethingWasCalled += 1
         presentSomethingArguments = response
     }
 }

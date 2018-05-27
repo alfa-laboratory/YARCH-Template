@@ -27,7 +27,7 @@ class {{ module_info.name }}PresenterTests: QuickSpec {
                     // when
                     presenter.presentSomething(response: TestData.successEmptyResponse)
                     // then
-                    expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
                     expect{ if case .emptyResult? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
                 }
             }
@@ -37,7 +37,7 @@ class {{ module_info.name }}PresenterTests: QuickSpec {
                     // when
                     presenter.presentSomething(response: TestData.successResponse)
                     // then
-                    expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
                     expect{ if case .result(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
                 }
             }
@@ -47,7 +47,7 @@ class {{ module_info.name }}PresenterTests: QuickSpec {
                     // when
                     presenter.presentSomething(response: TestData.failureResponse)
                     // then
-                    expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
                     expect{ if case .error(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
                 }
             }
@@ -64,11 +64,11 @@ extension {{ module_info.name }}PresenterTests {
 }
 
 fileprivate class {{ module_info.name }}ViewControllerMock: {{ module_info.name }}DisplayLogic {
-    var displaySomethingDidCalled: Int = 0
+    var displaySomethingWasCalled: Int = 0
     var displaySomethingArguments: {{ module_info.name }}.Something.ViewModel?
 
     func displaySomething(viewModel: {{ module_info.name }}.Something.ViewModel) {
-        displaySomethingDidCalled += 1
+        displaySomethingWasCalled += 1
         displaySomethingArguments = viewModel
     }
 }
