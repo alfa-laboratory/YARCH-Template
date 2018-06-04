@@ -11,64 +11,64 @@ import Nimble
 @testable import {{ module_info.project_name }}
 
 class {{ module_info.name }}PresenterTests: QuickSpec {
-	override func spec() {
-		var presenter: {{ module_info.name }}Presenter!
-		var viewControllerMock: {{ module_info.name }}ViewControllerMock!
+    override func spec() {
+        var presenter: {{ module_info.name }}Presenter!
+        var viewControllerMock: {{ module_info.name }}ViewControllerMock!
 
-		beforeEach {
-			presenter = {{ module_info.name }}Presenter()
-			viewControllerMock = {{ module_info.name }}ViewControllerMock()
-			presenter.viewController = viewControllerMock
-		}
+        beforeEach {
+            presenter = {{ module_info.name }}Presenter()
+            viewControllerMock = {{ module_info.name }}ViewControllerMock()
+            presenter.viewController = viewControllerMock
+        }
 
-		describe(".presentSomething") {
-			context("successfull empty result") {
-				it ("should prepare empty view model and display it in view") {
-					// when
-					presenter.presentSomething(response: TestData.successEmptyResponse)
-					// then
-					expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
-					expect{ if case .emptyResult? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
-				}
-			}
+        describe(".presentSomething") {
+            context("successfull empty result") {
+                it ("should prepare empty view model and display it in view") {
+                    // when
+                    presenter.presentSomething(response: TestData.successEmptyResponse)
+                    // then
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
+                    expect{ if case .emptyResult? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
+                }
+            }
 
-			context("successfull result") {
-				it ("should prepare result view model and display it in view") {
-					// when
-					presenter.presentSomething(response: TestData.successResponse)
-					// then
-					expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
-					expect{ if case .result(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
-				}
-			}
+            context("successfull result") {
+                it ("should prepare result view model and display it in view") {
+                    // when
+                    presenter.presentSomething(response: TestData.successResponse)
+                    // then
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
+                    expect{ if case .result(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
+                }
+            }
 
-			context("failure result") {
-				it ("should prepare error view model and display it in view") {
-					// when
-					presenter.presentSomething(response: TestData.failureResponse)
-					// then
-					expect(viewControllerMock.displaySomethingDidCalled).to(beTruthy())
-					expect{ if case .error(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
-				}
-			}
-		}
-	}
+            context("failure result") {
+                it ("should prepare error view model and display it in view") {
+                    // when
+                    presenter.presentSomething(response: TestData.failureResponse)
+                    // then
+                    expect(viewControllerMock.displaySomethingWasCalled).to(beTruthy())
+                    expect{ if case .error(_)? = viewControllerMock.displaySomethingArguments?.state { return true }; return false }.to(beTrue())
+                }
+            }
+        }
+    }
 }
 
 extension {{ module_info.name }}PresenterTests {
-	enum TestData {
-		static let successEmptyResponse = {{ module_info.name }}.Something.Response(result: .success([]))
-		static let successResponse = {{ module_info.name }}.Something.Response(result: .success([{{ module_info.name }}Model(uid: UUID().uuidString, name: "name")]))
-		static let failureResponse = {{ module_info.name }}.Something.Response(result: .failure(.someError(message: "some error")))
-	}
+    enum TestData {
+        static let successEmptyResponse = {{ module_info.name }}.Something.Response(result: .success([]))
+        static let successResponse = {{ module_info.name }}.Something.Response(result: .success([{{ module_info.name }}Model(uid: UUID().uuidString, name: "name")]))
+        static let failureResponse = {{ module_info.name }}.Something.Response(result: .failure(.someError(message: "some error")))
+    }
 }
 
 fileprivate class {{ module_info.name }}ViewControllerMock: {{ module_info.name }}DisplayLogic {
-	var displaySomethingDidCalled: Int = 0
-	var displaySomethingArguments: {{ module_info.name }}.Something.ViewModel?
+    var displaySomethingWasCalled: Int = 0
+    var displaySomethingArguments: {{ module_info.name }}.Something.ViewModel?
 
-	func displaySomething(viewModel: {{ module_info.name }}.Something.ViewModel) {
-		displaySomethingDidCalled += 1
-		displaySomethingArguments = viewModel
-	}
+    func displaySomething(viewModel: {{ module_info.name }}.Something.ViewModel) {
+        displaySomethingWasCalled += 1
+        displaySomethingArguments = viewModel
+    }
 }

@@ -4,33 +4,33 @@
 //
 
 enum {{ module_info.name }} {
-	// MARK: Use cases
-	enum Something {
-		struct Request {
-		}
+    // MARK: Use cases
+    enum Something {
+        struct Request {
+        }
 
-		struct Response {
-			var result: {{ module_info.name }}RequestResult
-		}
+        struct Response {
+            var result: {{ module_info.name }}RequestResult
+        }
 
-		struct ViewModel {
-			var state: ViewControllerState
-		}
-	}
+        struct ViewModel {
+            var state: ViewControllerState
+        }
+    }
 
-	enum {{ module_info.name }}RequestResult {
-		case failure({{ module_info.name }}Error)
-		case success([{{ module_info.name }}Model])
-	}
+    enum {{ module_info.name }}RequestResult {
+        case failure({{ module_info.name }}Error)
+        case success([{{ module_info.name }}Model])
+    }
 
-	enum ViewControllerState {
-		case loading
-		case result([Any/*viewModel*/])
-		case emptyResult
-		case error(message: String)
-	}
+    enum ViewControllerState {
+        case loading
+        case result([Any/*viewModel*/])
+        case emptyResult
+        case error(message: String)
+    }
 
-	enum {{ module_info.name }}Error: Error {
-		case someError(message: String)
-	}
+    enum {{ module_info.name }}Error: Error {
+        case someError(message: String)
+    }
 }
