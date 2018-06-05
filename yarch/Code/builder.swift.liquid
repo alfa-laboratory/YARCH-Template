@@ -7,6 +7,8 @@ import UIKit
 
 class {{ module_info.name }}Builder: ModuleBuilder {
 
+    var initialState: {{ module_info.name }}.ViewControllerState?
+
     func set(initialState: {{ module_info.name }}.ViewControllerState) -> {{ module_info.name }}Builder {
         self.initialState = initialState
         return self
